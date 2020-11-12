@@ -4,7 +4,7 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for goals
-const goal = require('../models/goal')
+const Goal = require('../models/goal')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -30,7 +30,7 @@ const router = express.Router()
 // INDEX
 // GET /goals
 router.get('/goals', requireToken, (req, res, next) => {
-  goal.find()
+  Goal.find()
     .then(goals => {
       // `goals` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -43,11 +43,26 @@ router.get('/goals', requireToken, (req, res, next) => {
     .catch(next)
 })
 
+// NDEX jsut of current user
+router.get('/goals', requireToken, (req, res, next) => {
+  Goal.find({owner: req.user.id})
+    .then(tasks => {
+    // `events` will be an array of Mongoose documents
+    // we want to convert each one to a POJO, so we use `.map` to
+    // apply `.toObject` to each one
+    // const currentUserTasks = tasks.filter(tasks.owner === req.user.id)
+    // return currentUserTasks.map(task => task.toObject())
+      return tasks.map(task => task.toObject())
+    })
+  // respond with status 200 and JSON of the events
+    .then(tasks => res.status(200).json({ tasks: tasks }))
+    .catch(next)
+})
 // SHOW
 // GET /goals/5a7db6c74d55bc51bdf39793
 router.get('/goals/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
-  goal.findById(req.params.id)
+  Goal.findById(req.params.id)
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "goal" JSON
     .then(goal => res.status(200).json({ goal: goal.toObject() }))
@@ -59,10 +74,12 @@ router.get('/goals/:id', requireToken, (req, res, next) => {
 // POST /goals
 router.post('/goals', requireToken, (req, res, next) => {
   // set owner of new goal to be current user
+  // console.log(req.body.goal.user)
   req.body.goal.owner = req.user.id
 
-  goal.create(req.body.goal)
+  Goal.create(req.body.goal)
     // respond to succesful `create` with status 201 and JSON of new "goal"
+    // .then(console.log(req.body))
     .then(goal => {
       res.status(201).json({ goal: goal.toObject() })
     })
@@ -79,7 +96,7 @@ router.patch('/goals/:id', requireToken, removeBlanks, (req, res, next) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.goal.owner
 
-  goal.findById(req.params.id)
+  Goal.findById(req.params.id)
     .then(handle404)
     .then(goal => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
@@ -98,7 +115,7 @@ router.patch('/goals/:id', requireToken, removeBlanks, (req, res, next) => {
 // DESTROY
 // DELETE /goals/5a7db6c74d55bc51bdf39793
 router.delete('/goals/:id', requireToken, (req, res, next) => {
-  goal.findById(req.params.id)
+  Goal.findById(req.params.id)
     .then(handle404)
     .then(goal => {
       // throw an error if current user doesn't own `goal`
