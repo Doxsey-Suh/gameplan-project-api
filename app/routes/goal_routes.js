@@ -28,9 +28,9 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 // INDEX
-// GET /goals
+// INDEX jsut of current user
 router.get('/goals', requireToken, (req, res, next) => {
-  Goal.find()
+  Goal.find({owner: req.user.id})
     .then(goals => {
       // `goals` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -43,21 +43,16 @@ router.get('/goals', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-// NDEX jsut of current user
-router.get('/goals', requireToken, (req, res, next) => {
-  Goal.find({owner: req.user.id})
-    .then(tasks => {
-    // `events` will be an array of Mongoose documents
-    // we want to convert each one to a POJO, so we use `.map` to
-    // apply `.toObject` to each one
-    // const currentUserTasks = tasks.filter(tasks.owner === req.user.id)
-    // return currentUserTasks.map(task => task.toObject())
-      return tasks.map(task => task.toObject())
+// INDEX ALL
+router.get('/allgoals', requireToken, (req, res, next) => {
+  Goal.find()
+    .then(goals => {
+      return goals.map(goal => goal.toObject())
     })
-  // respond with status 200 and JSON of the events
-    .then(tasks => res.status(200).json({ tasks: tasks }))
+    .then(goals => res.status(200).json({ goals: goals }))
     .catch(next)
 })
+
 // SHOW
 // GET /goals/5a7db6c74d55bc51bdf39793
 router.get('/goals/:id', requireToken, (req, res, next) => {
