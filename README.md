@@ -15,7 +15,7 @@ Future Updates:
 
 Planning and Developement:
 Planning for the back-end portion of this project began with the Entity-Relationship Diagram https://imgur.com/nt8RswU
-I planned to have goals with nested sub-goals but that will have to be implemented in a future version. The current version allows users to create many goals, and future versions will allow users to create many sub-goals within a goal. I used Express to create the API which handles authorization and CRUD functionality. I started with the authorization, running curl requests in the terminal to verify that the API works. From there I was able to sign in as a user and build the CRUD functionality. On the API there is a Mongoose query on the 'index' request which tells the API to only index goals created by the current signed-in user. In future versions users will be able to view all users' goals but not edit them.
+I planned to have goals with nested sub-goals but that will have to be implemented in a future version. I used Express to create the API which handles authorization and CRUD functionality. I started with the authorization, running curl requests in the terminal to verify that the API works. From there I was able to sign in as a user and build the CRUD functionality. On the API there is a Mongoose query on the 'index' request which tells the API to only index goals created by the current signed-in user. In future versions users will be able to view all users' goals but not edit them.
 
 ERD:
 https://imgur.com/nt8RswU
