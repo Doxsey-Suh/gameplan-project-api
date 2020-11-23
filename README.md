@@ -24,4 +24,4 @@ Important links:
 Client Repo: https://github.com/kdoxsey/gameplan-project-client
 Server Repo: https://github.com/kdoxsey/gameplan-project-api
 Deployed Client: https://kdoxsey.github.io/gameplan-project-client/
-Deployed Repo: https://powerful-chamber-37250.herokuapp.com/
+Deployed Server: https://powerful-chamber-37250.herokuapp.com/
