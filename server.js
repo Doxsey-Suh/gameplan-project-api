@@ -6,6 +6,7 @@ const cors = require('cors')
 // require route files
 const goalRoutes = require('./app/routes/goal_routes')
 const userRoutes = require('./app/routes/user_routes')
+const stepRoutes = require('./app/routes/step_routes')
 
 // require middleware
 const errorHandler = require('./lib/error_handler')
@@ -61,8 +62,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(requestLogger)
 
 // register route files
-app.use(goalRoutes)
 app.use(userRoutes)
+app.use(goalRoutes)
+app.use(stepRoutes)
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
