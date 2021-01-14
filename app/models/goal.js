@@ -6,6 +6,9 @@ const goalSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String
+  },
   steps: [stepSchema],
   owner: {
     type: mongoose.Schema.Types.ObjectId,

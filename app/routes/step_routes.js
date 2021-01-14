@@ -3,7 +3,7 @@ const router = express.Router()
 
 // require goal model
 const Goal = require('./../models/goal')
-const handle404 = require('./../lib/custom_errors')
+const handle404 = require('./../../lib/custom_errors')
 
 // CREATE
 // POST /steps/
