@@ -51,7 +51,7 @@ router.get('/steps/:id', requireToken, (req, res, next) => {
 router.post('/steps', requireToken, (req, res, next) => {
     req.body.step.owner = req.user.id
     Step.create(req.body.step)
-        .then(step => res.status(201).json({ sprint }))
+        .then(step => res.status(201).json({ step }))
         .then(() => res.sendStatus(204))
         .catch(next)
 })
