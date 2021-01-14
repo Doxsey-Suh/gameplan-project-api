@@ -31,6 +31,7 @@ const router = express.Router()
 // INDEX jsut of current user
 router.get('/goals', requireToken, (req, res, next) => {
   Goal.find({owner: req.user.id})
+    .populate('step')
     .then(goals => {
       // `goals` will be an array of Mongoose documents
       // we want to convert each one to a POJO, so we use `.map` to
@@ -43,21 +44,12 @@ router.get('/goals', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-// INDEX ALL
-router.get('/allgoals', requireToken, (req, res, next) => {
-  Goal.find()
-    .then(goals => {
-      return goals.map(goal => goal.toObject())
-    })
-    .then(goals => res.status(200).json({ goals: goals }))
-    .catch(next)
-})
-
 // SHOW
 // GET /goals/5a7db6c74d55bc51bdf39793
 router.get('/goals/:id', requireToken, (req, res, next) => {
   // req.params.id will be set based on the `:id` in the route
   Goal.findById(req.params.id)
+    .populate('step')
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "goal" JSON
     .then(goal => res.status(200).json({ goal: goal.toObject() }))

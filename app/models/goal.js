@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const stepSchema = require('./step')
 
 const goalSchema = new mongoose.Schema({
   name: {
@@ -9,7 +8,10 @@ const goalSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  steps: [stepSchema],
+  steps: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Step'
+  } ,
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

@@ -1,20 +1,20 @@
 const mongoose = require('mongoose')
 
 const stepSchema = new mongoose.Schema({
-    title: {
+    name: {
         type: String,
         required: true
     },
     description: {
-        type: String,
-        required: true
+        type: String
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true
 })
 
-module.exports = stepSchema
+module.exports = mongoose.model('Step', stepSchema)
