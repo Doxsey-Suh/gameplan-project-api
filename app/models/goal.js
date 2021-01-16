@@ -1,4 +1,7 @@
+'use strict'
+
 const mongoose = require('mongoose')
+const stepSchema = require('./step')
 
 const goalSchema = new mongoose.Schema({
   name: {
@@ -6,17 +9,14 @@ const goalSchema = new mongoose.Schema({
     required: true
   },
   description: {
-    type: String
+    type: String,
   },
-  // steps: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Step'
-  // } ,
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
-  }
+  },
+  steps: [stepSchema]
 }, {
   timestamps: true
 })

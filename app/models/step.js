@@ -1,3 +1,5 @@
+'use strict'
+
 const mongoose = require('mongoose')
 
 const stepSchema = new mongoose.Schema({
@@ -17,4 +19,4 @@ const stepSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('Step', stepSchema)
+module.exports = stepSchema
