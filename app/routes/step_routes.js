@@ -49,9 +49,11 @@ router.get('/steps/:id', requireToken, (req, res, next) => {
 // CREATE
 // POST /steps/
 router.post('/steps', requireToken, (req, res, next) => {
+    // set owner of new step to be current user
     req.body.step.owner = req.user.id
+    console.log(req.body)
     Step.create(req.body.step)
-        .then(step => res.status(201).json({ step }))
+        .then(step => res.status(201).json({ step: step.toObject }))
         .then(() => res.sendStatus(204))
         .catch(next)
 })

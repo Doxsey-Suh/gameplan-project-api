@@ -1,12 +1,9 @@
 const mongoose = require('mongoose')
 
 const stepSchema = new mongoose.Schema({
-    name: {
+    text: {
         type: String,
         required: true
-    },
-    description: {
-        type: String
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
