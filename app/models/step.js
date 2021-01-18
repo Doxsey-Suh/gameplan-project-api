@@ -3,12 +3,9 @@
 const mongoose = require('mongoose')
 
 const stepSchema = new mongoose.Schema({
-    name: {
+    text: {
         type: String,
         required: true
-    },
-    description: {
-        type: String
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
@@ -19,4 +16,4 @@ const stepSchema = new mongoose.Schema({
     timestamps: true
 })
 
-module.exports = stepSchema
+module.exports = mongoose.model('Step', stepSchema)
