@@ -8,10 +8,10 @@ const goalSchema = new mongoose.Schema({
   description: {
     type: String
   },
-  // steps: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'Step'
-  // } ,
+  steps: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Step'
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
