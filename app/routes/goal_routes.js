@@ -36,26 +36,8 @@ router.delete('/goals/:id', requireToken, (req, res, next) => {
     .catch(next)
 })
 
-// Show all Goals
-router.get('/goals', (req, res, next) => {
-  Goal.find()
-    .then(goals => {
-      return goals.map(goal => goal.toObject())
-    })
-    .then(goals => res.status(200).json({ goals: goals }))
-    .catch(next)
-})
-
-// Show one Goal
-router.get('/goals/:id', (req, res, next) => {
-  Goal.findById(req.params.id)
-    .then(handle404)
-    .then(goal => res.status(200).json({ goal: goal.toObject() }))
-    .catch(next)
-})
-
-// Show User's Goals
-router.get('/goals-user', requireToken, (req, res, next) => {
+// Index Goals
+router.get('/goals', requireToken, (req, res, next) => {
   // console.log(req.user)
   Goal.find({'owner': req.user.id})
     .then(handle404)
@@ -71,6 +53,32 @@ router.get('/goals-user', requireToken, (req, res, next) => {
     })
     .catch(next)
 })
+
+// Show one Goal
+router.get('/goals/:id', (req, res, next) => {
+  Goal.findById(req.params.id)
+    .then(handle404)
+    .then(goal => res.status(200).json({ goal: goal.toObject() }))
+    .catch(next)
+})
+
+// // Show User's Goals
+// router.get('/goals-user', requireToken, (req, res, next) => {
+//   // console.log(req.user)
+//   Goal.find({'owner': req.user.id})
+//     .then(handle404)
+//     .then(goals => {
+//       return goals.map(goal => {
+//         requireOwnership(req, goal)
+//         return goal.toObject()
+//       })
+//     })
+//     .then(goals => {
+//     // console.log(goals)
+//       res.status(200).json({ goals: goals })
+//     })
+//     .catch(next)
+// })
 
 // Update Goal
 router.patch('/goals/:id', requireToken, removeBlanks, (req, res, next) => {
