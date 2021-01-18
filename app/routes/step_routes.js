@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-// require goal model
-const Goal = require('./../models/goal')
+// require step model
+const Goal = require('./../models/step')
 // const handle404 = require('./../lib/custom_errors')
 
 // CREATE
@@ -10,19 +10,19 @@ const Goal = require('./../models/goal')
 router.post('/steps', (req, res, next) => {
   // get the step data from the body of the request
   const stepData = req.body.step
-  // get the goal id from the body
-  const goalId = stepData.goalId
-  // find the goal by its id
-  Goal.findById(goalId)
+  // get the step id from the body
+  const stepId = stepData.stepId
+  // find the step by its id
+  Goal.findById(stepId)
     // .then(handle404)
-    .then(goal => {
-      // add step to goal
-      goal.steps.push(stepData)
-      // save goal
-      return goal.save()
+    .then(step => {
+      // add step to step
+      step.steps.push(stepData)
+      // save step
+      return step.save()
     })
     // send responsne back to client
-    .then(goal => res.status(201).json({goal: goal}))
+    .then(step => res.status(201).json({step: step}))
     .catch(next)
 })
 
@@ -30,15 +30,14 @@ router.post('/steps', (req, res, next) => {
 // DELETE /steps/:id
 router.delete('/steps/:stepId', (req, res, next) => {
   const stepId = req.params.stepId
-  const goalId = req.body.step.goalId
-  Goal.findById(goalId)
+  Goal.findById(stepId)
     // .then(handle404)
-    .then(goal => {
-      goal.steps.id(stepId).remove()
+    .then(step => {
+      step.steps.id(stepId).remove()
       // Alternatively
-      // goals.steps.pull(id)
+      // steps.steps.pull(id)
 
-      return goal.save()
+      return step.save()
     })
     .then(() => res.sendStatus(204))
     .catch(next)
@@ -49,14 +48,13 @@ router.delete('/steps/:stepId', (req, res, next) => {
 router.patch('/steps/:stepId', (req, res, next) => {
   const stepId = req.params.stepId
   const stepData = req.body.step
-  const goalId = stepData.goalId
 
-  Goal.findById(goalId)
+  Goal.findById(stepId)
     // .then(handle404)
-    .then(goal => {
-      const step = goal.steps.id(stepId)
+    .then(step => {
+      const step = step.steps.id(stepId)
       step.set(stepData)
-      return goal.save()
+      return step.save()
     })
     .then(() => res.sendStatus(204))
     .catch(next)
