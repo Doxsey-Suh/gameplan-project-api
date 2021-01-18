@@ -17,7 +17,7 @@ router.post('/steps', (req, res, next) => {
     // .then(handle404)
     .then(goal => {
       // add step to goal
-      goal.steps.push(stepData)
+      goal.step.push(stepData)
       // save goal
       return goal.save()
     })
