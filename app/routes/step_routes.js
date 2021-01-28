@@ -19,6 +19,7 @@ const requireOwnership = customErrors.requireOwnership
 // this is middleware that will remove blank fields from `req.body`, e.g.
 // { goal: { title: '', text: 'foo' } } -> { goal: { text: 'foo' } }
 const removeBlanks = require('../../lib/remove_blank_fields')
+const Goal = require('../models/goal')
 // passing this as a second argument to `router.<verb>` will make it
 // so that a token MUST be passed for that route to be available
 // it will also set `req.user`
@@ -49,12 +50,24 @@ router.get('/steps/:id', requireToken, (req, res, next) => {
 // CREATE
 // POST /steps/
 router.post('/steps', requireToken, (req, res, next) => {
-    req.body.step.owner = req.user.id
-    Step.create(req.body.step)
-        .then(step => res.status(201).json({ step }))
-        .then(() => res.sendStatus(204))
-        .catch(next)
+  req.body.step.owner = req.user.id
+
+  Goal.findById(req.body.step.goalId)
+    .then(handle404)
+    .then(goal =>{
+      goal.steps.push
+    })
+
+
 })
+
+// router.post('/steps', requireToken, (req, res, next) => {
+//     req.body.step.owner = req.user.id
+//     Step.create(req.body.step)
+//         .then(step => res.status(201).json({ step }))
+//         .then(() => res.sendStatus(204))
+//         .catch(next)
+// })
 
 // DESTROY
 // DELETE /steps/:id
