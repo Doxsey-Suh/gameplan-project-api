@@ -55,10 +55,11 @@ router.post('/steps', requireToken, (req, res, next) => {
   Goal.findById(req.body.step.goalId)
     .then(handle404)
     .then(goal =>{
-      goal.steps.push
+      goal.steps.push(req.body.step)
+      return goal.save()
     })
-
-
+    .then(goal => res.status(201).json({goal}))
+    .catch(next)
 })
 
 // router.post('/steps', requireToken, (req, res, next) => {
