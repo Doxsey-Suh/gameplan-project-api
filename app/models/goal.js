@@ -16,6 +16,7 @@ const goalSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
+  step: [stepSchema]
 }, {
   timestamps: true
 })
