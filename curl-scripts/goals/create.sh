@@ -10,7 +10,8 @@ curl "${API}${URL_PATH}" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
     "goal": {
-      "name": "'"${NAME}"'"
+      "name": "'"${NAME}"'",
+      "description": "'"${DESCRIPTION}"'"
     }
   }'
 

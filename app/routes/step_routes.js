@@ -4,7 +4,7 @@ const express = require('express')
 const passport = require('passport')
 
 // pull in Mongoose model for goals
-const Step = require('../models/step')
+const Goal = require('../models/goal')
 
 // this is a collection of methods that help us detect situations when we need
 // to throw a custom error
@@ -27,6 +27,32 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
+// CREATE
+// POST /steps/
+router.post('/steps', requireToken, (req, res, next) => {
+  req.body.step.owner = req.user.id
+
+  const stepData = req.body.step
+
+  const goalId = stepData.goalId
+
+  Goal.findById(goalId)
+    .then(handle404)
+    .then(goal => {
+      goal.step.push(stepData)
+      return goal.save()
+    })
+    .then(goal => res.status(201).json({ goal }))
+    .catch(next)
+})
+// router.post('/steps', requireToken, (req, res, next) => {
+//   req.body.step.owner = req.user.id
+//   Step.create(req.body.step)
+//       .then(step => res.status(201).json({ step }))
+//       .then(() => res.sendStatus(204))
+//       .catch(next)
+// })
+
 // INDEX
 // GET /steps
 router.get('/steps', requireToken, (req, res, next) => {
@@ -46,15 +72,7 @@ router.get('/steps/:id', requireToken, (req, res, next) => {
         .catch(next)
 })
 
-// CREATE
-// POST /steps/
-router.post('/steps', requireToken, (req, res, next) => {
-    req.body.step.owner = req.user.id
-    Step.create(req.body.step)
-        .then(step => res.status(201).json({ step }))
-        .then(() => res.sendStatus(204))
-        .catch(next)
-})
+
 
 // DESTROY
 // DELETE /steps/:id
