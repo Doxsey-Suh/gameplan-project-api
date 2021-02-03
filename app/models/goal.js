@@ -9,13 +9,15 @@ const goalSchema = new mongoose.Schema({
     required: true
   },
   description: {
-    type: String,
+    type: String
+    // required: true
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
+  step: [stepSchema]
 }, {
   timestamps: true
 })

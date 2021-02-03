@@ -1,7 +1,7 @@
 #!/bin/bash
 
 API="http://localhost:4741"
-URL_PATH="/goals"
+URL_PATH="/steps"
 
 curl "${API}${URL_PATH}" \
   --include \
@@ -9,9 +9,9 @@ curl "${API}${URL_PATH}" \
   --header "Content-Type: application/json" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
-    "goal": {
-      "name": "'"${NAME}"'",
-      "description": "'"${DESCRIPTION}"'"
+    "step": {
+      "text": "'"${TEXT}"'",
+      "goalId": "'"${GOAL_ID}"'"
     }
   }'
 
